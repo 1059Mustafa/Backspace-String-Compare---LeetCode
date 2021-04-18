@@ -1,0 +1,110 @@
+method 1
+
+class Solution {
+public:
+    bool backspaceCompare(string s, string t)
+    {
+        stack<int>s1,s2;
+        int i=0;
+        int j=0;
+    
+        while(i<s.size()&&j<t.size())
+        {
+            if(s[i]!='#')
+            {
+                s1.push(s[i]);
+            }
+            else
+            {
+                if(s1.size()!=0)
+                {
+                    s1.pop();
+                }
+                
+            }
+            if(t[j]!='#')
+            {
+                s2.push(t[j]);
+            }
+            else
+            {
+                if(s2.size()!=0)
+                {
+                    s2.pop();
+                }
+            }
+        }
+        while(i<s.size())
+        {
+          if(s[i]!='#')
+            {
+                s1.push(s[i]);
+            }
+            else
+            {
+                if(s1.size()!=0)
+                {
+                    s1.pop();
+                }
+                
+            }  
+        }
+        while(j<t.size())
+        {
+            if(t[j]!='#')
+            {
+                s2.push(t[j]);
+            }
+            else
+            {
+                if(s2.size()!=0)
+                {
+                    s2.pop();
+                }
+            }
+        }
+        while(s1.size()>0&&s2.size()>0)
+        {
+            if(s1.top()!=s2.top())
+            {
+                return false;
+            }
+            s1.pop();
+            s2.pop();
+        }
+        if(!s1.empty()&&s1.empty())
+        {
+            return true;
+        }
+        return false;
+        
+    }
+};
+
+
+
+method 2
+
+string make(string &s) {
+        stack<char> st;
+        for (char c : s) {
+            if (c == '#') {
+                if (not st.empty())
+                    st.pop();
+            }
+            else
+                st.push(c);
+        }
+        
+        string result;
+        while (not st.empty()) {
+            result += st.top();
+            st.pop();
+        }
+        reverse(result.begin(), result.end());
+        return result;
+    }
+    
+    bool backspaceCompare(string s, string t) {
+        return make(s) == make(t);
+    }
